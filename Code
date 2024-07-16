@@ -1,0 +1,33 @@
+// Include necessary libraries
+#include <Arduino.h>
+
+// Define constants
+const int sensorPin = A0;       // Analog pin for alcohol sensor
+const int ignitionPin = 13;     // Digital pin for ignition control
+const int alcoholThreshold = 50; // Example threshold in mg/dL
+
+void setup() {
+  pinMode(ignitionPin, OUTPUT);
+  Serial.begin(9600);                  // Initialize serial communication for debugging
+}
+
+void loop() {
+  int alcoholLevel = analogRead(sensorPin);
+  
+  // Convert analog reading to alcohol concentration (mg/dL)
+  // Calibration might be required based on sensor characteristics
+  
+  Serial.print("Alcohol Level (mg/dL): ");
+  Serial.println(alcoholLevel);
+  
+  if (alcoholLevel > alcoholThreshold) {
+    digitalWrite(ignitionPin, LOW); // Engine ignition disabled
+    Serial.println("Engine ignition disabled due to high alcohol level.");
+    // Optional: Display warning message or sound alarm
+  } else {
+    digitalWrite(ignitionPin, HIGH); // Engine ignition enabled
+    Serial.println("Engine ignition enabled.");
+  }
+  
+  delay(1000); // Delay for stability, adjust as necessary
+}
